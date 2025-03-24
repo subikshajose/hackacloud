@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Documents</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f5f5, #e8f5e9);
+            color: #333;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            overflow: hidden;
+            padding: 15px 20px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar h1 {
+            margin: 0;
+            float: left;
+            font-size: 26px;
+            font-weight: bold;
+        }
+        .navbar-links {
+            float: right;
+        }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .navbar-links a:hover {
+            color: #c8e6c9;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .documents-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .documents-section h2 {
+            color: #4CAF50;
+            margin-top: 0;
+            font-size: 22px;
+        }
+        .document-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .document-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        .document-item:last-child {
+            border-bottom: none;
+        }
+        .document-item:hover {
+            background: #f1f8e9;
+        }
+        .document-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .document-date {
+            color: #888;
+            font-size: 14px;
+        }
+        .button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+        .button:hover {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>My Documents</h1>
+        <div class="navbar-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="documents-section">
+            <h2>Your Documents</h2>
+            {% if documents %}
+                <ul class="document-list">
+                    {% for doc in documents %}
+                    <li class="document-item">
+                        <span class="document-title">{{ doc.title }}</span>
+                        <div>
+                            <span class="document-date">Last edited: {{ doc.updated_at.strftime('%Y-%m-%d %H:%M') if doc.updated_at else 'N/A' }}</span>
+                            <a href="{{ url_for('editor', document_id=doc._id) }}" class="button">Edit</a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No documents found. Create a new document to get started!</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
